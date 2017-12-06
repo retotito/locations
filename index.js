@@ -35,27 +35,22 @@ stream.once('open', function(fd) {
 
 function createObject(value) {
     let object = {};
-
-
-    //{ "id": "135569", "title" : "Star Trek Beyond", "year":2016 , "genre":["Action", "Adventure", "Sci-Fi"] }
     
     object['name'] = value.properties.Postcode +" " + value.properties.Locality;
     object['country'] = value.properties.ISO;
     object['language'] = value.properties.Language;
     object['suggest'] = [
-        "x" + value.properties.Postcode,
-        "x" + value.properties.Locality,
         {
-            "input": "x" + value.properties.Postcode,  // add x as prefix because of numbers in Elasticsearch
-           
+            "input": value.properties.Postcode,
+            "weight" : 30
         },
         {
-            "input": "x" + value.properties.Locality,
-            
+            "input": value.properties.Locality,
+            "weight" : 20
         },
         {
-            "input": "x" + value.properties.Postcode + " " + value.properties.Locality,
-           
+            "input": value.properties.Postcode + " " + value.properties.Locality,
+            "weight" : 10
         }
     ];
 
